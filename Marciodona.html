@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rochester Estate Sale - Clearance Catalog</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding-bottom: 20px;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+    header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+    .info-bar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+      font-size: 0.95rem;
+    }
+    .info-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .timer-container {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      text-align: center;
+      padding: 12px;
+      margin: 0 auto 30px;
+      max-width: 600px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .glass-card:hover {
+      transform: translateY(-5px);
+    }
+    .featured-section {
+      margin-bottom: 40px;
+    }
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      border: 2px solid #38bdf8;
+    }
+    @media (max-width: 768px) {
+      .featured-card {
+        grid-template-columns: 1fr;
+      }
+    }
+    .featured-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .featured-info h2 {
+      color: #38bdf8;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4ade80;
+      margin-bottom: 15px;
+    }
+    .description {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+      transition: opacity 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .grid-title {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: #f1f5f9;
+      border-left: 4px solid #38bdf8;
+      padding-left: 10px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .sub-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .sub-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #f8fafc;
+    }
+    .sub-card .price {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 25px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 50px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+      background: rgba(15, 23, 42, 0.8);
+    }
+    footer a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .popup-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      animation: slideIn 0.5s ease;
+    }
+    .popup-notification span {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Rochester Estate Sale & Moving Clearance</h1>
+    <p>Quality Pre-Owned Furniture, Appliances & Household Items</p>
+    <div class="info-bar">
+      <div class="info-item">📍 Location: Upper Mount Hope, Rochester, NY 14620</div>
+      <div class="info-item">⏱ Appointment Duration: 30 Min Slots</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="timer-container">
+      ⚡ Next Pickup Slot Closes In: <span id="timer">15:00</span> Minutes
+    </div>
+
+    <!-- Featured Item / Service 1 -->
+    <div class="featured-section">
+      <h2 class="grid-title">Featured Item</h2>
+      <div class="glass-card featured-card">
+        <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_080024.jpg" alt="Product Image">
+        <div class="featured-info">
+          <h2>-Used Whirlpool Top-Freezer Refrigerator (Black) - </h2>
+          <div class="price">$300</div>
+          <p class="description">Whirlpool top-freezer refrigerator in sleek black finish. Fully functional, clean, and used but in great working condition. Plenty of space for groceries and frozen food.  
+Model: WRT311FZDB01  
+Dimensions: 32.75" W x 32.5" D x 74.4" H  
+Price: $300  </p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Services / Items Grid (Slots 2 to 23) -->
+    <h2 class="grid-title">All Available Clearance Items</h2>
+    <div class="services-grid">
+
+      <!-- Item 2 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_085542.jpg" alt="Product Image">
+          <h3>Solid Wood 2-Seater Sofa / Couch -</h3>
+          <div class="price">$2000</div>
+          <p class="description">Condition: Used - Good
+Description:
+Extremely sturdy, heavy-duty solid wood sofa with comfortable beige fabric cushions. Built to last with a dark wood frame.  
+Dimensions: 79" L x 39" W x 35" H  
+Estimated Weight: ~400 lbs  
+Note: Very heavy! Requires at least 4 people to carry/move.  
+Price: $2,000  
+Local pickup only.</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_090725.jpg" alt="Product Image">
+          <h3> Rustic Wooden TV Stand / Media Console</h3>
+          <div class="price"> $100</div>
+          <p class="description">Condition: Used - Good
+Description:
+Sturdy wooden TV stand/table in good condition. Perfect size for medium to large TVs with room for media players or decorations underneath.  
+Dimensions: 46.5" L x 17.75" W x 16" H  
+Price: $100  
+Note: TV, remotes, and Roku shown in the picture are NOT included.  
+Pickup required.</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_115628.jpg" alt="Product Image">
+          <h3>Gevalia CM500 12-Cup Coffee Maker</h3>
+          <div class="price"> $40</div>
+          <p class="description">Condition: Used - Good
+Description:
+Pre-owned Gevalia drip coffee maker with a 12-cup capacity. Digital settings and stylish stainless steel finish. Tested and works perfectly!  
+Model: CM500  
+Price: $40 </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_120319.jpg" alt="Product Image">
+          <h3>5-Piece Non-Stick Cookware Set (Pans & Skillet)</h3>
+          <div class="price">$30</div>
+          <p class="description">Condition: Used - Good
+Description:
+Complete 5-piece non-stick cookware set with glass lids and heat-resistant handles. Great budget starter set for any kitchen!  
+Includes:
+Saucepan diameters: 6 in, 7.5 in, and 10 in  
+Frying pan diameter: 8 in  
+Skillet diameter: 10 in  
+Price: $30  </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_120846.jpg" alt="Product Image">
+          <h3>Ninja Fit Personal Single-Serve Blender</h3>
+          <div class="price">$30 </div>
+          <p class="description">Condition: Used - Good
+Description:
+Pre-owned Ninja Fit single-serve personal blender. Compact, powerful, and perfect for quick smoothies or protein shakes. Clean and in great condition.  
+Price: $30  </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 7 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_121459.jpg" alt="Product Image">
+          <h3>Complete Full-Size Bed Set</h3>
+          <div class="price">$150</div>
+          <p class="description">Complete bedroom package featuring a standard full-size wooden bed frame with a comfortable mattress. Includes mattress protector, full linen set, comforter, and 4 pillows. Clean and ready for immediate use.  </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 8 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_122311.jpg" alt="Product Image">
+          <h3>Pre-Owned Full-Size Bed Frame with Queen-Size Mattress Package</h3>
+          <div class="price">$200</div>
+          <p class="description">Condition: Pre-owned / Used
+Description:
+Pre-owned bedroom set including a standard full-size bed frame topped with a queen-size mattress, along with full linen, comforter, and 4 pillows.  
+Note: The bed frame is slightly smaller than the queen mattress. Wall pictures and nightstands are not included. </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 9 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_122859.jpg" alt="Product Image">
+          <h3>Minimalist Wooden Writing Desk (Desk 1)</h3>
+          <div class="price">$25</div>
+          <p class="description">Dimensions: 59" L x 29.5" W x 29.25" H  
+Condition: Pre-owned / Used
+Description:
+Pre-owned spacious study/work desk with a light wood-grain finish top and sturdy metal legs. Great functional condition for home office, study room, or laptop setup.  </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 10 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_123408.jpg" alt="Product Image">
+          <h3>Wooden Study / Computer Desk (Desk 2)</h3>
+          <div class="price">$25</div>
+          <p class="description">Condition: Used - Good
+Description:
+Sturdy wooden writing desk with a textured light wood finish. Compact and practical workspace.  
+Dimensions: 59" L x 29.5" W x 29.25" H  
+Price: $25  
+Available for local pickup!</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 11 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-43-26-62.jpg" alt="Product Image">
+          <h3>A study or work desk3</h3>
+          <div class="price">$20</div>
+          <p class="description">Description: A study or work desk featuring a smooth light-wood surface supported by four clean white legs.
+Dimensions: 59 × 29.5 × 29.25 in
+</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 12 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-43-39-87.jpg" alt="Product Image">
+          <h3>Bedside Stand Pair</h3>
+          <div class="price">$100</div>
+          <p class="description">Description: A pair of dark brown wooden bedside tables featuring tempered glass tops and slatted lower shelves (includes painting).
+Dimensions: 24 × 24 × 25.5 in
+Price: $100 for the pair</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 13 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_125646.jpg" alt="Product Image">
+          <h3>Pair of Lamps - Twisted Base</h3>
+          <div class="price">$40</div>
+          <p class="description">Description: A pair of table lamps designed with dark brown twisted stems and elegant white fabric shades.
+Dimensions: 25 in. height × 8 in. diameter</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 14 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-44-30-00.jpg" alt="Product Image">
+          <h3>Combo Offer - Stand & Lamp</h3>
+          <div class="price"> $120</div>
+          <p class="description">A bundle offer combining the dark brown glass bedside stands and the pair of twisted base lamps together.
+Price: $120 for the full set (stands + lamps)</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 15 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-44-44-35.jpg" alt="Product Image">
+          <h3>Bedside Stand Pair - Minimalist</h3>
+          <div class="price">$30</div>
+          <p class="description">Description: A pair of sleek, compact bedside nightstands with a minimalist light-wood finish.
+Dimensions: 16 × 19 × 21.5 in
+Price: $30 for the pair</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 16 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_131445.jpg" alt="Product Image">
+          <h3>Pair of Lamps - Metal Base</h3>
+          <div class="price">$25</div>
+          <p class="description">Description: A pair of modern bedside table lamps featuring brushed metal bases paired with cylindrical white shades.
+Dimensions: 14.5 in. height × 7 in. diameter</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 17 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_133138.jpg" alt="Product Image">
+          <h3>Drawer Ikea Storklinta 1</h3>
+          <div class="price">$80</div>
+          <p class="description">Description: An IKEA Storklinta 4-drawer chest or dresser featuring a light-wood finish (Unit 1).
+Dimensions: 31.75 × 19 × 39.75 in</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 18 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-46-24-57.jpg" alt="Product Image">
+          <h3>Drawer Ikea Storklinta 2</h3>
+          <div class="price">$80</div>
+          <p class="description">Description: An IKEA Storklinta 4-drawer chest or dresser featuring a light-wood finish (Unit 2).
+Dimensions: 31.75 × 19 × 39.75 in</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 19 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_134034.jpg" alt="Product Image">
+          <h3>Drawer Ikea Storklinta 3</h3>
+          <div class="price">$80</div>
+          <p class="description">Description: An IKEA Storklinta 4-drawer chest or dresser featuring a light-wood finish (Unit 3).
+Dimensions: 31.75 × 19 × 39.75 in</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 20 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/Screenshot_2026-09-23-07-46-56-86.jpg" alt="Product Image">
+          <h3>Revlon Hair Dryer with Diffuser</h3>
+          <div class="price">$20</div>
+          <p class="description">Description: A silver and black Revlon hair dryer equipped with a removable black diffuser attachment, perfect for adding volume and styling curly or wavy hair.  </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 21 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/Marciodona-/refs/heads/main/IMG_20260923_134941.jpg" alt="Product Image">
+          <h3>Pink Revlon Hair Dryer</h3>
+          <div class="price">$15</div>
+          <p class="description">Description: A vibrant bright pink Revlon hair dryer featuring a black nozzle, air intake grid, and power cord, offering a compact and stylish blow-drying solution. </p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+      <!-- Item 22 -->
+      <div class="glass-card sub-card">
+        <div>
+          <img src="https://raw.githubusercontent.com/niyogshonket-ops/My-images-/refs/heads/main/IMG_20260923_140104.jpg" alt="Product Image">
+          <h3>Blue Conair 1875 Hair Dryer</h3>
+          <div class="price">$15 </div>
+          <p class="description">Description: A blue and black Conair 1875 hair dryer featuring easy-to-use toggle switches on the handle for adjusting heat and speed settings</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7kuNSfLA87_Z3QLm1QxzBSGFCag7xJCTUQUK4uKCMl7I_RQ/viewform?usp=header" class="btn">Order Now</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>For direct inquiries or questions, reach out to: <a href="mailto:Estatesalesupport@gmail.com">Estatesalesupport@gmail.com</a></p>
+    <p style="margin-top: 8px;">📍 Location: Upper Mount Hope, Rochester, NY 14620</p>
+  </footer>
+
+  <div id="social-proof" class="popup-notification">
+    <span>🟢 <strong>Notice:</strong> Someone from Rochester (14620) reserved a pickup slot!</span>
+  </div>
+
+  <script>
+    // 15-Minute Countdown Timer
+    let time = 15 * 60;
+    const timerElement = document.getElementById('timer');
+
+    setInterval(() => {
+      const minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      timerElement.textContent = `${minutes}:${seconds}`;
+      if (time > 0) time--;
+    }, 1000);
+
+    // Live Notification Popups
+    const notifications = [
+      "Someone from Rochester (14620) reserved a slot for 10:00 PM!",
+      "A buyer booked a 30-min visit slot for tomorrow 2:30 AM!",
+      "New inquiry received for item pickup!",
+      "Slot booked for 11:00 PM pickup!"
+    ];
+
+    const popup = document.getElementById('social-proof');
+    setInterval(() => {
+      const randomText = notifications[Math.floor(Math.random() * notifications.length)];
+      popup.querySelector('span').innerHTML = `🟢 <strong>Notice:</strong> ${randomText}`;
+      popup.style.display = 'flex';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 4000);
+    }, 8000);
+  </script>
+</body>
+</html>
